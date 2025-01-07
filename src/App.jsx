@@ -19,8 +19,8 @@ function App() {
 
   const getPosts = () => {
     axios.get(`${apiUrl}/posts`).then((resp) => {
-      console.log(resp);
-      setPosts(resp.data.posts);
+      console.log(resp.data);
+      setPosts(resp.data);
     })
   };
 
@@ -75,12 +75,12 @@ function App() {
           <h1>I miei Post</h1>
 
           {/* Card per i post */}
-          {posts && posts.length > 0 ? (
+          {(posts && posts.length > 0) ? (
             <div className="row row-cols-2 row-cols-lg-3">
               {posts.map((curPost) => (
                 <div className="col" key={curPost.id}>
                   <div className="card mb-3">
-                    <img src={`${apiUrl}/${curPost.image}`} className="card-img-top h-50"/>
+                    <img src={`${curPost.image}`} className="card-img-top h-50"/>
                     <div className="card-body">
                       <h4>{curPost.title}</h4>
                       <p>{curPost.content}</p>
