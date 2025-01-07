@@ -33,7 +33,7 @@ function App() {
 
     axios.post(`${apiUrl}/posts`, formData)
     .then((resp) => {
-      const newArray = [...posts, resp.data];
+      const newArray = [...posts ?? [], resp.data];
       setPosts(newArray);
       setFormData(initialDataForm)
     })
