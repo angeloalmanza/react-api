@@ -84,7 +84,7 @@ function App() {
                     <div className="card-body">
                       <h4>{curPost.title}</h4>
                       <p>{curPost.content}</p>
-                      <button onClick={() => {cancella(curPost.id)}} className="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                      <button onClick={() => {cancella(curPost.id)}} className="btn btn-danger"><i className="fa-solid fa-trash-can"></i></button>
                     </div>
                   </div>
                 </div>
