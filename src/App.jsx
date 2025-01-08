@@ -7,7 +7,8 @@ function App() {
   const initialDataForm = {
     title: "",
     content: "",
-    image: ""
+    image: "",
+    tags: []
   };
 
   const [posts, setPosts] = useState([]);
@@ -51,7 +52,7 @@ function App() {
     .then((resp) => {
       const newArray = [...posts ?? [], resp.data];
       setPosts(newArray);
-      setFormData(initialDataForm)
+      setFormData(initialDataForm);
     })
   };
 
@@ -67,21 +68,25 @@ function App() {
   };
 
   const handleInputChange = (event) => {
-    const keyToChange = event.target.name;
-    let newValue;
+    const { name, value, type, checked } = event.target;
 
-    if(event.target.type === "checkbox"){
-      newValue = event.target.checked;
-    }else{
-      newValue = event.target.value;
+    if (type === "checkbox") {
+      setFormData((prevData) => {
+        const updatedTags = checked
+          ? [...prevData.tags, value] // Aggiungo il tag se il checkbox è selezionato
+          : prevData.tags.filter((tag) => tag !== value); // Rimuovo il tag se il checkbox non è selezionato
+
+        return {
+          ...prevData,
+          tags: updatedTags, // Aggiorna la lista dei tag selezionati
+        };
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
     }
-
-    const newData = {
-      ...formData,
-      [keyToChange]: newValue,
-    }
-
-    setFormData(newData);
   };
 
   return (
@@ -150,6 +155,24 @@ function App() {
               value={formData.image}
               onChange={handleInputChange}
               />
+            </div>
+            <div className="mb-3">
+            <label>Seleziona i tags per il post:</label>
+              <div>
+                {tags.map((curTag, index) => (
+                  <div key={index}>
+                    <input
+                      type="checkbox"
+                      id={`tag-${curTag}`}
+                      name="tags"
+                      value={curTag}
+                      checked={formData.tags.includes(curTag)}
+                      onChange={handleInputChange}
+                    />
+                    <label htmlFor={`tag-${curTag}`}>{curTag}</label>
+                  </div>
+                ))}
+              </div>
             </div>
             <button type="submit" className="btn btn-primary">Aggiungi</button>
           </form>
