@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+const apiUrl = import.meta.env.VITE_API_URL;
+import AppCard from "./components/AppCard";
 
 function App() {
   const initialDataForm = {
@@ -7,8 +9,6 @@ function App() {
     content: "",
     image: ""
   };
-
-  const apiUrl = "http://localhost:3000";
 
   const [posts, setPosts] = useState([]);
   const [formData, setFormData] = useState(initialDataForm);
@@ -79,14 +79,10 @@ function App() {
             <div className="row row-cols-2 row-cols-lg-3">
               {posts.map((curPost) => (
                 <div className="col" key={curPost.id}>
-                  <div className="card mb-3">
-                    <img src={`${curPost.image}`} className="card-img-top h-50"/>
-                    <div className="card-body">
-                      <h4>{curPost.title}</h4>
-                      <p>{curPost.content}</p>
-                      <button onClick={() => {cancella(curPost.id)}} className="btn btn-danger"><i className="fa-solid fa-trash-can"></i></button>
-                    </div>
-                  </div>
+                  <AppCard 
+                  post={curPost}
+                  onCancel={() => (cancella(curPost.id))}
+                  />
                 </div>
               ))}
             </div>
