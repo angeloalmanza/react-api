@@ -12,17 +12,33 @@ function App() {
 
   const [posts, setPosts] = useState([]);
   const [formData, setFormData] = useState(initialDataForm);
+  const [tags, setTags] = useState([]);
+  const [filterTags , setFilterTags] = useState("all");
 
   useEffect(() => {
     getPosts();
-  }, []);
+  }, [filterTags]);
+
+  useEffect(() => {
+    getTags();
+  },[]);
 
   const getPosts = () => {
-    axios.get(`${apiUrl}/posts`).then((resp) => {
+    let url = `${apiUrl}/posts`;
+    if(filterTags !== "all"){
+      url+= `?tags=${filterTags}`;
+    }
+    axios.get(url).then((resp) => {
       console.log(resp.data);
       setPosts(resp.data);
     })
   };
+
+  const getTags = () =>{
+    axios.get(`${apiUrl}/tags`).then((resp) =>{
+      setTags(resp.data.tags);
+    })
+  }
 
   /**
    *funzione che aggiunge un nuovo post alla lista
@@ -71,6 +87,13 @@ function App() {
   return (
     <>
       <div className="container">
+        <section>
+          <select name="tags" id="" value={filterTags} onChange={(event) => setFilterTags(event.target.value)}>
+            <option value="all">Tutti i post</option>
+            {tags.map((curTag,index) => <option key={index} value={curTag}> {curTag}</option>)}
+          </select>
+        </section>
+
         <section>
           <h1>I miei Post</h1>
 

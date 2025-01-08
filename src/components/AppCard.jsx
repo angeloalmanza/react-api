@@ -7,6 +7,7 @@ const AppCard = ({post, onCancel}) => {
             <div className="card-body">
               <h4>{post.title}</h4>
               <p>{post.content}</p>
+              <p><strong>Tags:</strong> {post.tags.join(", ")}</p>
               <button onClick={onCancel} className="btn btn-danger"><i className="fa-solid fa-trash-can"></i></button>
             </div>
         </div>
